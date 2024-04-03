@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/about-us.css' %}" type="text/css" />
+    <title>About Us</title>
+</head>
+<body>
+    {% include 'navbar.html' %} 
+    {% block content %}
+    <div class="heading">
+        <h1>About Us</h1>
+        <p>“Natural pest control is the only long-term, sustainable solution for plant pests. It’s not only good for our planet, but also cuts long-term costs for farmers.”</p>
+    </div>
+    <div class="container">
+        <section class="about">
+            <div class="about-image">
+                <img src="../static/images/aboutus.jpg" alt="greenhouse">
+            </div>
+            <div class="about-content">
+                <h2>Empowering Canadian Growers: Our Story</h2>
+                <p>Founded in 2014, GrowLiv has been striving to provide greenhouse growers with ecologically and economically friendly solutions for 7 years and counting. Our goal is to prove biological controls can work with or replace chemical pesticides by connecting Canadian growers with healthy, energetic insects to solve their pest problems.
+
+                    With facilities located in Amherstburg, Ontario, we are right in the center of the Windsor-Essex growing region and just outside Leamington, the greenhouse capital of the country. Our products are reared locally in Southwestern Ontario and never cold-stored -- we ship to your door within 24h of harvesting in order to provide you with predators that are lively and ready to take down pests!</p>
+                    <a href="" class="read-more">Read more</a>
+            </div>
+        </section>
+    </div>
+    <div class="container-two">
+        <div class="heading">
+            <h1 style="font-size: 30px;">Our Mission</h1>
+            <p>Providing sustainable solutions to Canadian farmers by using nature as the blueprint.</p>
+        </div>
+    </div>
+    {% endblock %}
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%load static%}
+    {% load tz %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Profile Page</title>
+</head>
+<body>
+    {% include 'navbar.html' %} 
+    {% block content %}
+    <div class="container">
+        <main class="table">
+            <section class="table_header">
+                <h1> User History</h1>
+            </section>
+        
+            <section class="table_body">
+                {% if all_users_history %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Video</th>
+                            <th>Mites Count</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in all_users_history %}
+                            <tr>
+                                <td>{{ item.user_name }}</td>
+                                <td>{{ item.upload_date | localtime | date:"F j, Y H:i:s" }}</td>
+                                <td>{{ item.video_name }}</td>
+                                <td>{{ item.mites_count }}</td>
+                                <td>
+                                <form id="delete-form-{{item.id}}" action="{% url 'delete_entry' item.id %}" method="post" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" onclick="confirmdelete('{{item.id}}')"style="border: none; background: none; cursor: pointer;">
+                                        <i class="fa-solid fa-trash" style="color: rgb(196, 92, 92);"></i>
+                                    </button>
+                                </form>
+                            </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% elif upload_history %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Video</th>
+                            <th>Mites Count</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in upload_history %}
+                        <tr>
+                            <td>{{ username }}</td>
+                            <td>{{ item.upload_date }}</td>
+                            <td>{{ item.video_name }}</td>
+                            <td>{{ item.mites_count }}</td>
+                            <td>
+                                <a href="{% url 'delete_entry' item.id %}">
+                                    <i class="fa-solid fa-trash" style="color:rgb(196, 92, 92);"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                        <p>No upload history available.</p>
+                    {% endif %}
+            </section>  
+
+        </main>
+    </div>
+    {% endblock %}
+    {% include 'footer.html' %}
+    <script>
+        function confirmDelete(itemId) {
+            if (confirm("Are you sure you want to delete this entry?")) {
+                document.getElementById("delete-form-" + itemId).submit();
+            }
+            else{
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+{%load static%}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            <nav class="navbar">
+                <img src="../static/images/logo1.png" alt="logo">
+                <ul>
+                    <li><a href="{% url "home" %}">Home</a></li>
+                    <li><a href="{% url "logout" %}">Log out</a></li>
+                </ul>
+            </nav>
+            <main class="table">
+                <section class="table_header">
+                    <h1> Video History</h1>
+                </section>
+                
+                <section class="table_body">
+                    {% if upload_history %}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Date</th>
+                                <th>Video</th>
+                                <th>Mites Count</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in upload_history %}
+                                <tr>
+                                    <td>{{ item.video_name }}</td>
+                                    <td>{{ item.upload_date }}</td>
+                                    <td>{{ item.mites_count }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>No upload history available.</p>
+                {% endif %}
+                </section>
+        
+            </main>
+            {% comment %} <div class="content">
+                <h1>Video History</h1>
+                <div class="upload-history">
+                    {% if upload_history %}
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Video Name</th>
+                                    <th>Upload Date</th>
+                                    <th>Mites Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in upload_history %}
+                                    <tr>
+                                        <td>{{ item.video_name }}</td>
+                                        <td>{{ item.upload_date }}</td>
+                                        <td>{{ item.mites_count }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No upload history available.</p>
+                    {% endif %}
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
